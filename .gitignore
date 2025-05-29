@@ -1,0 +1,23 @@
+# Ambiente virtual
+.venv/
+.env
+__pycache__/
+*.py[cod]
+
+# Banco de dados local
+pix_organiza/database/bancos.db
+
+# Arquivos de configuração sensíveis
+storage/.env
+
+# Builds e executáveis
+/dist/
+build/
+*.spec
+*.exe
+
+# IDEs e arquivos locais
+.vscode/
+*.log
+.DS_Store
+*.swp
