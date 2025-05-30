@@ -11,7 +11,7 @@ pix_organiza/database/bancos.db
 storage/.env
 
 # Builds e executáveis
-/dist/
+dist/
 build/
 *.spec
 *.exe
