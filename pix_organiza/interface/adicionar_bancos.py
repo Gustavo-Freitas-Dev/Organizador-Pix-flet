@@ -1,9 +1,24 @@
 import flet as ft
 from database.models import adicionar_banco
-from database.utils import limpar_dados
 
 
 def construir_tela_adicionar_banco(page: ft.Page):
+
+    # 🔹 Limpa os campos da interface
+    def limpar_dados(e, origem_field, dados_tratados):
+        origem_field.value = ""
+        dados_tratados.value = ""
+        origem_field.update()
+        dados_tratados.update()
+
+        page.open(
+            ft.SnackBar(
+                content=ft.Text('Campos limpos!'),
+                duration=1500,
+                bgcolor=ft.Colors.RED_400
+            )
+        )
+
     variacao_banco = ft.TextField(
         label="Digite a variação do banco",
         width=680,
@@ -62,7 +77,7 @@ def construir_tela_adicionar_banco(page: ft.Page):
         tooltip="Limpar Campos",
         width=170,
         style=ft.ButtonStyle(bgcolor=ft.Colors.RED_400, color=ft.Colors.WHITE),
-        on_click=lambda e: limpar_dados(e, variacao_banco, banco_padronizado)
+        on_click= lambda e: limpar_dados(e, variacao_banco, banco_padronizado)
     )
 
     voltar = ft.TextButton(
@@ -83,7 +98,6 @@ def construir_tela_adicionar_banco(page: ft.Page):
         tooltip="Abrir banco de dados",
         on_click=lambda e: page.go("/ver-banco")
     )
-
 
     page.views.append(
         ft.View(

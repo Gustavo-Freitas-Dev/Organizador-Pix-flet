@@ -1,5 +1,5 @@
 import flet as ft
-from database.utils import tratar_dados, limpar_dados
+from database.utils import limpar_entrada, extrair_transacoes, montar_resultado, formatar_valor_final
 
 def construir_interface(page: ft.Page):
     origem_field = ft.TextField(
@@ -20,10 +20,47 @@ def construir_interface(page: ft.Page):
         read_only=True,
     )
 
+    # 🔹 Limpa os campos da interface
+    def limpar_dados(e, origem_field, dados_tratados):
+        origem_field.value = ""
+        dados_tratados.value = ""
+        origem_field.update()
+        dados_tratados.update()
+
+        page.open(
+            ft.SnackBar(
+                content=ft.Text('Campos limpos!'),
+                duration=1500,
+                bgcolor=ft.Colors.RED_400
+            )
+        )
+
+
+    # 🔹 Lógica principal de tratamento de dados
+    def tratar_dados(e, origem_field, dados_tratados):
+        texto_limpo = limpar_entrada(origem_field.value)
+        linhas = texto_limpo.split('\n')
+        transacoes = extrair_transacoes(linhas)
+        resultado, total_valor, total_contas = montar_resultado(transacoes)
+
+        dados_tratados.value = (
+            resultado +
+            f"Total de transações: {total_contas}\n"
+            f"Total em valor: R$ {formatar_valor_final(total_valor)}\n"
+            if resultado else "Nenhuma transação válida encontrada."
+        )
+
+        dados_tratados.update()
+
+
     def copiar_para_area_de_transferencia(e):
         page.set_clipboard(dados_tratados.value)
-        page.snack_bar = ft.SnackBar(ft.Text("Dados copiados com sucesso!"), duration=2000)
-        page.snack_bar.open = True
+        page.open(ft.SnackBar(
+            content=ft.Text("Dados copiados com sucesso!"),
+            duration=2000,
+            bgcolor=ft.Colors.BLUE_400
+            )
+        )
         page.update()
 
     btn_copiar_dados = ft.TextButton(

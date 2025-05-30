@@ -3,7 +3,6 @@ import unicodedata
 from database.models import Bancos
 from database.connection import session
 
-
 # 🔹 Normaliza e limpa o texto de entrada
 def limpar_entrada(texto: str) -> str:
     texto = unicodedata.normalize('NFKC', texto)
@@ -13,31 +12,6 @@ def limpar_entrada(texto: str) -> str:
     texto = re.sub(r'(?i)(PIX\s+(?:CPF|CNPJ|Email|Fone)?\s*[\d@+\-.\s]+)', r'\n\1', texto)
     texto = re.sub(r'\n{2,}', '\n', texto)
     return texto.strip()
-
-
-# 🔹 Limpa os campos da interface
-def limpar_dados(e, origem_field, dados_tratados):
-    origem_field.value = ""
-    dados_tratados.value = ""
-    origem_field.update()
-    dados_tratados.update()
-
-
-# 🔹 Lógica principal de tratamento de dados
-def tratar_dados(e, origem_field, dados_tratados):
-    texto_limpo = limpar_entrada(origem_field.value)
-    linhas = texto_limpo.split('\n')
-    transacoes = extrair_transacoes(linhas)
-    resultado, total_valor, total_contas = montar_resultado(transacoes)
-
-    dados_tratados.value = (
-        resultado +
-        f"Total de transações: {total_contas}\n"
-        f"Total em valor: R$ {formatar_valor_final(total_valor)}\n"
-        if resultado else "Nenhuma transação válida encontrada."
-    )
-
-    dados_tratados.update()
 
 
 # 🔹 Busca o nome padronizado do banco via SQLAlchemy
@@ -152,3 +126,4 @@ def tratar_valor(valor_str: str) -> tuple[str, float]:
 # 🔹 Formata valor total final
 def formatar_valor_final(valor_float: float) -> str:
     return f"{valor_float:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+

@@ -19,22 +19,30 @@ def viewer_database(page: ft.Page):
         banco = session.query(Bancos).filter(Bancos.id == banco_id).first()
 
         if not banco:
-            page.snack_bar = ft.SnackBar(ft.Text("Banco não encontrado."))
-            page.snack_bar.open = True
+            page.open(ft.SnackBar(
+                content=ft.Text("Banco não encontrado."),
+                duration=5000,
+                bgcolor=ft.Colors.RED_400
+                ))
             page.update()
             return
 
-        input_variacao = ft.TextField(label="Variação", value=banco.variacao, width=400)
-        input_padronizado = ft.TextField(label="Nome Padronizado", value=banco.nome_padronizado, width=400)
+        input_variacao = ft.TextField(label="Variação", value=banco.variacao, width=680, border_radius=30)
+        input_padronizado = ft.TextField(label="Nome Padronizado", value=banco.nome_padronizado, width=680, border_radius=30)
 
         def salvar_edicao(e):
             banco.variacao = input_variacao.value.strip()
             banco.nome_padronizado = input_padronizado.value.strip()
             session.commit()
 
-            page.snack_bar = ft.SnackBar(ft.Text("Banco atualizado com sucesso!"))
-            page.snack_bar.open = True
-            page.go("/ver-banco")
+            page.open(ft.SnackBar(
+                content=ft.Text("Banco atualizado com sucesso!"),
+                duration=5000,
+                bgcolor=ft.Colors.GREEN_400
+                )
+            )
+            page.update()
+        
 
         page.views.append(
             ft.View(
@@ -48,14 +56,39 @@ def viewer_database(page: ft.Page):
                                 icon=ft.Icons.CLOSE,
                                 tooltip="Cancelar",
                                 icon_color=ft.Colors.RED_600,
-                                on_click=lambda e: page.go("/ver-banco")
+                                on_click=lambda e: page.go("/adicionar-banco")
                             )
                         ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
 
                         ft.Divider(),
-
-                        input_variacao,
-                        input_padronizado,
+                        # Área de resultado
+                        ft.Container(
+                            content=ft.Column(
+                                controls=[
+                                    ft.Text("Dados Tratados", size=16, weight=ft.FontWeight.BOLD),
+                                    input_variacao,
+                                ],
+                                spacing=10,
+                            ),
+                            padding=20,
+                            border_radius=20,
+                            bgcolor=ft.Colors.GREY_50,
+                            shadow=ft.BoxShadow(blur_radius=15, color=ft.Colors.GREY_400)
+                        ),
+                        
+                        ft.Container(
+                            content=ft.Column(
+                                controls=[
+                                    ft.Text("Dados Tratados", size=16, weight=ft.FontWeight.BOLD),
+                                    input_padronizado,
+                                ],
+                                spacing=10,
+                            ),
+                            padding=20,
+                            border_radius=20,
+                            bgcolor=ft.Colors.GREY_50,
+                            shadow=ft.BoxShadow(blur_radius=15, color=ft.Colors.GREY_400)
+                        ),
 
                         ft.Row([
                             ft.ElevatedButton(
@@ -78,10 +111,19 @@ def viewer_database(page: ft.Page):
             session.delete(banco)
             session.commit()
             atualizar_tabela()
-            page.snack_bar = ft.SnackBar(ft.Text("Banco removido com sucesso!"))
+            
+            page.open(ft.SnackBar(
+                content=ft.Text("Banco removido com sucesso!"),
+                duration=5000,
+                bgcolor=ft.Colors.GREEN_400    
+            ))
         else:
-            page.snack_bar = ft.SnackBar(ft.Text("Banco não encontrado."))
-        page.snack_bar.open = True
+            page.open(ft.SnackBar(
+                content=ft.Text("Banco não encontrado."),
+                duration=5000,
+                bgcolor=ft.Colors.RED_400
+            ))
+        
         page.update()
 
     def atualizar_tabela(filtro=""):
@@ -121,6 +163,7 @@ def viewer_database(page: ft.Page):
     filtro_input = ft.TextField(
         label="Filtrar por nome ou variação...",
         width=400,
+        border_radius=30,
         prefix_icon=ft.Icons.SEARCH,
         on_change=lambda e: atualizar_tabela(filtro_input.value)
     )
@@ -158,7 +201,7 @@ def viewer_database(page: ft.Page):
                                     shadow=ft.BoxShadow(blur_radius=12, color=ft.Colors.GREY_300),
                                 )
                             ],
-                            height=500,
+                            height=400,
                             spacing=10
                         )
                     ],
