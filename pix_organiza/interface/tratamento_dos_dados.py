@@ -122,13 +122,14 @@ def construir_interface(page: ft.Page):
                                         value="🛠 Feito por @gustavo.python • ⚙ Powered by Python • © 2025",
                                         size=12,
                                         color=ft.Colors.GREY,
-                                        opacity=0.7
+                                        opacity=0.6
                                     )
                                 ],
                                 alignment=ft.MainAxisAlignment.CENTER
                             ),
-                            alignment=ft.alignment.bottom_center,
-                        )
+                            # alignment=ft.alignment.bottom_center,
+                            padding=40,
+                        ),
                     ],
                     expand=True
                 )

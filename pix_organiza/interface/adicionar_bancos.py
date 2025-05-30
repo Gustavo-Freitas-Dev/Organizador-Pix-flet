@@ -75,6 +75,16 @@ def construir_tela_adicionar_banco(page: ft.Page):
         on_click=lambda e: page.go('/')
     )
 
+    view_database = ft.ElevatedButton(
+        text="Visualizar Banco",
+        icon=ft.Icons.REMOVE_RED_EYE_OUTLINED,
+        bgcolor=ft.Colors.BLUE_600,
+        color=ft.Colors.WHITE,
+        tooltip="Abrir banco de dados",
+        on_click=lambda e: page.go("/ver-banco")
+    )
+
+
     page.views.append(
         ft.View(
             route="/adicionar-banco",
@@ -82,7 +92,13 @@ def construir_tela_adicionar_banco(page: ft.Page):
             controls=[
                 ft.Column(
                     controls=[
-                        ft.Text("Adicionar Novo Banco", size=30, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_600),
+                        ft.Row(
+                            controls=[
+                                ft.Text("Adicionar Novo Banco", size=30, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_600),
+                                view_database
+                            ],
+                            alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+                        ),
                         ft.Divider(),
                         ft.Container(
                             content=ft.Column(
@@ -111,7 +127,7 @@ def construir_tela_adicionar_banco(page: ft.Page):
                         ),
                         ft.Row(
                             [voltar, btn_limpar_banco, btn_salvar_banco],
-                            alignment=ft.MainAxisAlignment.SPACE_AROUND
+                            alignment=ft.MainAxisAlignment.SPACE_EVENLY
                         ),
                         ft.Container(
                             content=ft.Row(
@@ -120,14 +136,14 @@ def construir_tela_adicionar_banco(page: ft.Page):
                                         value="🛠 Feito por @gustavo.python • ⚙ Powered by Python • © 2025",
                                         size=12,
                                         color=ft.Colors.GREY,
-                                        opacity=0.7
+                                        opacity=0.6
                                     ),
                                 ],
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 # expand=True
                             ),
                             # alignment=ft.alignment.bottom_center,
-                            padding=180,
+                            padding=190,
                         ),
                     ],
                     expand=True

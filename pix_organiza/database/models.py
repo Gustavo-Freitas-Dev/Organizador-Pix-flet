@@ -36,14 +36,23 @@ def remover_banco(variacao):
         session.delete(consulta)
         session.commit()
 
-# def consultar(variacao):
-#     # variacao = str(input('Variação do nome do banco: '))
-     
-#     consulta = session.query(Bancos).filter_by(variacao = variacao).first() 
+def view_database():
+    bancos = session.query(Bancos).all()
 
-#     print(consulta.nome_padronizado)
+    # for banco in bancos:
+    #     print(f'ID: {banco.id} | Variação: {banco.variacao} | Nome padrão: {banco.nome_padronizado}')
+    
+    for novo_id, banco in enumerate(bancos, start=1):
+        banco.id = novo_id
+
+    session.commit()
+
+# def zerar():
+#     session.execute("DELETE FROM sqlite_sequence WHERE name='bancos'")
+#     session.commit()
 
 if __name__ == '__main__':
-    remover_banco('teste agora')
-    # adicionar_banco('teste agora', 'agora teste')
-
+    # remover_banco('teste agora')
+    # adicionar_banco('bco do brasil', 'Banco do Brasil')
+    view_database()
+    # zerar()

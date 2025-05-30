@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from interface.tratamento_dos_dados import construir_interface
 from interface.adicionar_bancos import construir_tela_adicionar_banco
+from interface.view_database import viewer_database
 
 def main(page: ft.Page):
     def rota_mudou(e):
@@ -14,6 +15,8 @@ def main(page: ft.Page):
                 construir_interface(page)
             case "/adicionar-banco":
                 construir_tela_adicionar_banco(page)
+            case "/ver-banco":
+                viewer_database(page)
         page.update()
         
 # Caminho base para modo normal ou empacotado (.exe)

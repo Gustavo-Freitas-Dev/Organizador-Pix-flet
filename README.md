@@ -18,10 +18,10 @@ O **Organizador Pix** é uma ferramenta desenvolvida em Python com o objetivo de
 ## 🛠️ Tecnologias Utilizadas
 
 - `Python`
-- `Streamlit` (interface web)
 - `SQLite` (base de dados local para variações de bancos)
+- `sqlalchemy` (Para manipula o banco de dados)
 - `Pandas` (tratamento e formatação de dados)
-- `Flet` (ou alternativa visual, se aplicável)
+- `Flet` (Interface visual)
 
 ---
 
